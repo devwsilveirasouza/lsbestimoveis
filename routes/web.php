@@ -3,12 +3,15 @@
 use App\Http\Controllers\Admin\CidadeController;
 use Illuminate\Support\Facades\Route;
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::redirect('/', '/admin/cidades');
 
-Route::get('/', [CidadeController::class, 'cidades']);
-
+// Agrupamento de rotas
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('cidades',             [CidadeController::class, 'cidades'])->name('cidades.listar');
+    Route::get('cidades/adicionar',   [CidadeController::class, 'formAdicionar'])->name('cidades.form');
+    Route::post('cidades/adicionar',  [CidadeController::class, 'adicionar'])->name('cidades.adicionar');
+    Route::delete('cidades/{id}',     [CidadeController::class, 'deletar'])->name('cidades.deletar');
+});
 Route::get('/sobre', function () {
     return '<h1>Sobre</h1>';
 });
