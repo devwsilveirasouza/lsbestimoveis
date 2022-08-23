@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
@@ -24,6 +25,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // Delimitando quantidade de caracteres enviado para o banco de dados
         Schema::defaultStringLength(191);
+        // Configurando os verbs http para visualização do usuário
+        Route::resourceVerbs([
+            'create'    => 'criar',
+            'edit'      => 'editar',
+        ]);
     }
 }
