@@ -15,7 +15,8 @@ class CreateProximidadesTable extends Migration
     {
         Schema::create('proximidades', function (Blueprint $table) {
             $table->id();
-            $table->id('nome', 100);
+            $table->string('nome', 100);
+
             $table->timestamps();
         });
     }
