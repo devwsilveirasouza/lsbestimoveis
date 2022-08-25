@@ -24,7 +24,16 @@ class ImovelController extends Controller
          * Lazy loading */
         // $imoveis = Imovel::all();
         /** Eager loading */
-        $imoveis = Imovel::with(['cidade', 'endereco'])->get();
+        // $imoveis = Imovel::with(['cidade', 'endereco'])
+        // ->orderBy('titulo', 'asc')
+        // ->get();
+        /** Ordenar com relacionamentos */
+        $imoveis = Imovel::join('cidades', 'cidades.id', '=', 'imoveis.cidade_id') // Busca no modelo relacionado
+        ->join('enderecos', 'enderecos.imovel_id', '=', 'imoveis.id') // Busca no modelo relacionado
+        ->orderBy('cidades.nome', 'asc') // Determinar campo e ordem para ordenação dos dados
+        ->orderBy('enderecos.bairro', 'asc') // Determinar campo e ordem para ordenação dos dados
+        ->orderBy('titulo', 'asc') // Determinar campo e ordem para ordenação dos dados
+        ->get();
 
         return view('admin.imoveis.index')
         ->with('imoveis', $imoveis);

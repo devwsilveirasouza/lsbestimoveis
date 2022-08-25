@@ -17,8 +17,10 @@ class CidadeController extends Controller
     public function index()
     {
         $subtitulo = 'Lista de Cidades';
-        $cidades = Cidade::all();
-        // With
+        /** Ordenar dados retornados
+         * ao utilizar orderBy é preciso utilizar o ->get() */
+        // $cidades = Cidade::all();
+        $cidades = Cidade::orderBy('nome', 'asc')->get();
         return view('admin.cidades.index')
             ->with('subtitulo', $subtitulo)
             ->with('cidades', $cidades);
