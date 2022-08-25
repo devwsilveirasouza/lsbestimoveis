@@ -11,6 +11,21 @@ class Imovel extends Model
     /** Quando o nome não segue a convenção em ingles
      * precisa adicionar a diretiva abaixo */
     protected $table = "imoveis";
+
+    protected $fillable = [
+        'titulo',
+        'terreno',
+        'salas',
+        'banheiros',
+        'dormitorios',
+        'garagens',
+        'descricao',
+        'preco',
+        'cidade_id',
+        'tipo_id',
+        'finalidade_id'
+    ];
+
     /** Um pra um */
     public function endereco()
     {

@@ -10,6 +10,13 @@ class Endereco extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'rua',
+        'numero',
+        'bairro',
+        'complemento'
+    ];
+
     public function imovel()
     {   /** Pertence á. */
         return $this->belongsTo(Imovel::class);

@@ -11,7 +11,7 @@
 
     <!-- Compiled and minified CSS -->
     {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"> --}}
-    <link rel="stylesheet" href="{{asset('materialize/css/materialize.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('materialize/css/materialize.min.css') }}">
 
     <title>Best Imóveis</title>
 </head>
@@ -25,10 +25,10 @@
                 <a href="/" class="brand-logo">Best Imóveis</a>
                 <ul class="right">
                     <li>
-                        <a href="">Imóveis</a>
+                        <a href="{{ route('admin.imoveis.index') }}">Imóveis</a>
                     </li>
                     <li>
-                        <a href="{{ route('admin.cidades.index')}}">Cidades</a>
+                        <a href="{{ route('admin.cidades.index') }}">Cidades</a>
                     </li>
 
                 </ul>
@@ -48,14 +48,19 @@
 
     <!-- Compiled and minified JavaScript -->
     {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script> --}}
-    <script src="{{asset('materialize/js/materialize.min.js')}}"></script>
+    <script src="{{ asset('materialize/js/materialize.min.js') }}"></script>
 
     <script>
         @if (session('sucesso'))
             M.toast({
                 html: "{{ session('sucesso') }}"
-            })
+            });
         @endif
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var elems = document.querySelectorAll('select');
+            var instances = M.FormSelect.init(elems);
+        });
     </script>
 
 </body>
