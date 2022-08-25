@@ -20,7 +20,14 @@ class ImovelController extends Controller
      */
     public function index()
     {
-        return view('admin.imoveis.index');
+        /** Buscar dados para mostrar na view
+         * Lazy loading */
+        // $imoveis = Imovel::all();
+        /** Eager loading */
+        $imoveis = Imovel::with(['cidade', 'endereco'])->get();
+
+        return view('admin.imoveis.index')
+        ->with('imoveis', $imoveis);
     }
 
     /**
