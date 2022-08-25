@@ -11,4 +11,15 @@ class Cidade extends Model
 
     protected $fillable = ['nome'];
 
+    /** Um pra muitos */
+    public function imoveis()
+    {
+        /** Cidade -> Têm muitos Imóveis */
+        return $this->hasMany(Imovel::class);
+        /** Convenção: o eloquent espera encontrar
+     * o campo 'cidade_id' na tabela Imoveis
+     */
+    }
+
+
 }
