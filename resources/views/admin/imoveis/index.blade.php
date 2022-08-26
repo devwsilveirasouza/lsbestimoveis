@@ -1,8 +1,6 @@
 @extends('admin.layouts.principal')
 
 @section('conteudo-principal')
-
-
     <section class="section">
 
         <table class="hightlight">
@@ -18,10 +16,16 @@
             <tbody>
                 @forelse ($imoveis as $imovel)
                     <tr>
-                        <td>{{$imovel->cidade->nome}}</td>
-                        <td>{{$imovel->endereco->bairro}}</td>
-                        <td>{{$imovel->titulo}}</td>
-                        <td>Editar -
+                        <td>{{ $imovel->cidade->nome }}</td>
+                        <td>{{ $imovel->endereco->bairro }}</td>
+                        <td>{{ $imovel->titulo }}</td>
+                        <td>
+                            <a href="{{ route('admin.imoveis.edit', [$imovel->id]) }}">
+                                <span>
+                                    <i class="material-icons blue-text text-accent-3">edit</i>
+                                </span>
+                            </a>
+
                             <form action="{{ route('admin.imoveis.destroy', [$imovel->id]) }}" method="POST"
                                 style="display: inline;">
                                 @csrf
@@ -45,11 +49,10 @@
         </table>
 
         <div class="fixed-action-btn">
-            <a href="{{route('admin.imoveis.create')}}" class="btn-floating btn-large waves-effect waves-light">
+            <a href="{{ route('admin.imoveis.create') }}" class="btn-floating btn-large waves-effect waves-light">
                 <i class="large material-icons">add</i>
             </a>
         </div>
 
     </section>
-
 @endsection

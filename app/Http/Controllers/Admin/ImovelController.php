@@ -30,14 +30,14 @@ class ImovelController extends Controller
         // ->get();
         /** Ordenar com relacionamentos */
         $imoveis = Imovel::join('cidades', 'cidades.id', '=', 'imoveis.cidade_id') // Busca no modelo relacionado
-        ->join('enderecos', 'enderecos.imovel_id', '=', 'imoveis.id') // Busca no modelo relacionado
-        ->orderBy('cidades.nome', 'asc') // Determinar campo e ordem para ordenação dos dados
-        ->orderBy('enderecos.bairro', 'asc') // Determinar campo e ordem para ordenação dos dados
-        ->orderBy('titulo', 'asc') // Determinar campo e ordem para ordenação dos dados
-        ->get();
+            ->join('enderecos', 'enderecos.imovel_id', '=', 'imoveis.id') // Busca no modelo relacionado
+            ->orderBy('cidades.nome', 'asc') // Determinar campo e ordem para ordenação dos dados
+            ->orderBy('enderecos.bairro', 'asc') // Determinar campo e ordem para ordenação dos dados
+            ->orderBy('titulo', 'asc') // Determinar campo e ordem para ordenação dos dados
+            ->get();
 
         return view('admin.imoveis.index')
-        ->with('imoveis', $imoveis);
+            ->with('imoveis', $imoveis);
     }
 
     /**
@@ -56,12 +56,11 @@ class ImovelController extends Controller
         $action = route('admin.imoveis.store');
 
         return view('admin.imoveis.form')
-        ->with('action', $action)
-        ->with('cidades', $cidades)
-        ->with('tipos', $tipos)
-        ->with('finalidades', $finalidades)
-        ->with('proximidades', $proximidades);
-
+            ->with('action', $action)
+            ->with('cidades', $cidades)
+            ->with('tipos', $tipos)
+            ->with('finalidades', $finalidades)
+            ->with('proximidades', $proximidades);
     }
 
     /**
@@ -78,10 +77,9 @@ class ImovelController extends Controller
         $imovel = Imovel::create($request->all());
         $imovel->endereco()->create($request->all());
 
-        if($request->has('proximidades')){
+        if ($request->has('proximidades')) {
 
             $imovel->proximidades()->sync($request->proximidades);
-
         }
 
         DB::Commit();
@@ -109,7 +107,23 @@ class ImovelController extends Controller
      */
     public function edit($id)
     {
-        //
+        // Eager loading
+        $imovel = Imovel::with(['cidade', 'endereco', 'finalidade', 'tipo', 'proximidades'])->find($id);
+
+        $cidades        = Cidade::all();
+        $tipos          = Tipo::all();
+        $finalidades    = Finalidade::all();
+        $proximidades   = Proximidade::all();
+
+        $action = route('admin.imoveis.update', $imovel->id);
+
+        return view('admin.imoveis.form')
+            ->with('action', $action)
+            ->with('imovel', $imovel)
+            ->with('cidades', $cidades)
+            ->with('tipos', $tipos)
+            ->with('finalidades', $finalidades)
+            ->with('proximidades', $proximidades);
     }
 
     /**
@@ -121,7 +135,21 @@ class ImovelController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $imovel = Imovel::find($id);
+
+        DB::beginTransaction();
+
+        $imovel->update($request->all());
+        $imovel->endereco->update($request->all());
+
+        If($request->has('proximidades')){
+            $imovel->proximidades()->sync($request->proximidades);
+        }
+
+        DB::Commit();
+
+        $request->session()->flash('sucesso', "Imóvel atualizado com sucesso!");
+        return redirect()->route('admin.imoveis.index');
     }
 
     /**
