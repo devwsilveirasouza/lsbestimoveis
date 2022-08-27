@@ -75,6 +75,7 @@ class ImovelController extends Controller
         DB::beginTransaction();
 
         $imovel = Imovel::create($request->all());
+        /** Chamando o método do relacinamento endereço para ser criado */
         $imovel->endereco()->create($request->all());
 
         if ($request->has('proximidades')) {
@@ -96,7 +97,12 @@ class ImovelController extends Controller
      */
     public function show($id)
     {
-        //
+        /** Carregando informações do modo eager loading */
+        $imovel = Imovel::with(['cidade', 'endereco', 'finalidade', 'tipo', 'proximidades'])->find($id);
+
+        // Chamar a view
+        return view('admin.imoveis.show')
+            ->with('imovel', $imovel);
     }
 
     /**
@@ -107,7 +113,7 @@ class ImovelController extends Controller
      */
     public function edit($id)
     {
-        // Eager loading
+        // Carregar informações através do Eager loading
         $imovel = Imovel::with(['cidade', 'endereco', 'finalidade', 'tipo', 'proximidades'])->find($id);
 
         $cidades        = Cidade::all();
@@ -135,14 +141,19 @@ class ImovelController extends Controller
      */
     public function update(Request $request, $id)
     {
+        /**
+         * Realiza a busca das informações
+         * Lazy loading
+         */
         $imovel = Imovel::find($id);
 
         DB::beginTransaction();
-
+        // Realiza a atualização em massa
         $imovel->update($request->all());
+        // Realiza a ligação / atualização do relacionamento
         $imovel->endereco->update($request->all());
 
-        If($request->has('proximidades')){
+        if ($request->has('proximidades')) {
             $imovel->proximidades()->sync($request->proximidades);
         }
 
@@ -162,15 +173,16 @@ class ImovelController extends Controller
     {
         // Imovel::destroy($id); // Devido ao relacionamento o banco exclui a cidade relacionada
         $imovel = Imovel::find($id);
-
+        /** Inicia a transação */
         DB::beginTransaction();
-        // Remover o endereço
+        /** Carrega a informação
+         * para ser removido o endereço através do modelo endereço */
         $imovel->endereco->delete();
         // Remover o imóvel
         $imovel->delete();
 
         DB::Commit();
-
+        /** Finaliza a transação */
         $request->session()->flash('sucesso', 'Imóvel excluído com sucesso!');
         return redirect()->route('admin.imoveis.index');
     }

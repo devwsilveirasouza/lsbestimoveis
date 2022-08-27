@@ -19,15 +19,25 @@
                         <td>{{ $imovel->cidade->nome }}</td>
                         <td>{{ $imovel->endereco->bairro }}</td>
                         <td>{{ $imovel->titulo }}</td>
-                        <td>
-                            <a href="{{ route('admin.imoveis.edit', [$imovel->id]) }}">
+                        <td class="right-align">
+
+                            {{-- Ver --}}
+                            <a href="{{ route('admin.imoveis.show', [$imovel->id]) }}" title="ver" >
+                                <span>
+                                    <i class="material-icons yellow-text text-darken-3">remove_red_eye</i>
+                                </span>
+                            </a>
+
+                            {{-- Editar --}}
+                            <a href="{{ route('admin.imoveis.edit', [$imovel->id]) }}" title="editar" >
                                 <span>
                                     <i class="material-icons blue-text text-accent-3">edit</i>
                                 </span>
                             </a>
 
+                            {{-- Editar --}}
                             <form action="{{ route('admin.imoveis.destroy', [$imovel->id]) }}" method="POST"
-                                style="display: inline;">
+                                style="display: inline;" title="remover" >
                                 @csrf
                                 @method('DELETE')
 
@@ -38,6 +48,7 @@
                                 </button>
 
                             </form>
+
                         </td>
                     </tr>
                 @empty
