@@ -23,7 +23,7 @@
 
                             {{-- Fotos --}}
                             {{-- Rota aninhada --}}
-                            <a href="{{ route('admin.imoveis.fotos.index', [$imovel->id]) }}" title="fotos" >
+                            <a href="{{ route('admin.imoveis.fotos.index', $imovel->id ) }}" title="fotos" >
                                 <span>
                                     <i class="material-icons green-text text-lighten-1">insert_photo</i>
                                 </span>
@@ -32,7 +32,7 @@
                             {{-- Ver --}}
                             <a href="{{ route('admin.imoveis.show', [$imovel->id]) }}" title="ver" >
                                 <span>
-                                    <i class="material-icons yellow-text text-darken-3">remove_red_eye</i>
+                                    <i class="material-icons indigo-text text-darken-3">remove_red_eye</i>
                                 </span>
                             </a>
 
