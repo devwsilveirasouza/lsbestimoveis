@@ -19,25 +19,62 @@ class ImovelController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    // Sem pesquisa no index
+    // public function index()
+    // {
+    //     /** Buscar dados para mostrar na view
+    //      * Lazy loading */
+    //     // $imoveis = Imovel::all();
+    //     /** Eager loading */
+    //     // $imoveis = Imovel::with(['cidade', 'endereco'])
+    //     // ->orderBy('titulo', 'asc')
+    //     // ->get();
+
+    //     /** Ordenar com relacionamentos */
+    //     $imoveis = Imovel::join('cidades', 'cidades.id', '=', 'imoveis.cidade_id') // Busca no modelo relacionado
+    //         ->join('enderecos', 'enderecos.imovel_id', '=', 'imoveis.id') // Busca no modelo relacionado
+    //         ->orderBy('cidades.nome', 'asc') // Determinar campo e ordem para ordenação dos dados
+    //         ->orderBy('enderecos.bairro', 'asc') // Determinar campo e ordem para ordenação dos dados
+    //         ->orderBy('titulo', 'asc') // Determinar campo e ordem para ordenação dos dados
+    //         ->get();
+
+    //     return view('admin.imoveis.index')
+    //         ->with('imoveis', $imoveis);
+    // }
+        // Com campos de pesquisa no index
+    public function index(Request $request)
     {
-        /** Buscar dados para mostrar na view
-         * Lazy loading */
-        // $imoveis = Imovel::all();
-        /** Eager loading */
-        // $imoveis = Imovel::with(['cidade', 'endereco'])
-        // ->orderBy('titulo', 'asc')
-        // ->get();
         /** Ordenar com relacionamentos */
+        // Montando a consulta //
         $imoveis = Imovel::join('cidades', 'cidades.id', '=', 'imoveis.cidade_id') // Busca no modelo relacionado
             ->join('enderecos', 'enderecos.imovel_id', '=', 'imoveis.id') // Busca no modelo relacionado
             ->orderBy('cidades.nome', 'asc') // Determinar campo e ordem para ordenação dos dados
             ->orderBy('enderecos.bairro', 'asc') // Determinar campo e ordem para ordenação dos dados
-            ->orderBy('titulo', 'asc') // Determinar campo e ordem para ordenação dos dados
-            ->get();
+            ->orderBy('titulo', 'asc'); // Determinar campo e ordem para ordenação dos dados
+
+        // Pegando os valores para acessar na view
+        $cidade_id = $request->cidade_id;
+        $titulo = $request->titulo;
+
+        // Filtro de cidade
+        if($cidade_id){ // ou ($request->cidade_id)
+            $imoveis->where('cidades.id', $cidade_id);
+        }
+        // Filtro de título
+        if($titulo){ // ou ($request->titulo)
+            $imoveis->where('titulo', 'like', "%$titulo%");
+        }
+
+        // Pegando os dados retornados a partir da execução da query //
+        $imoveis = $imoveis->get();
+
+        $cidades = Cidade::orderBy('nome')->get();
 
         return view('admin.imoveis.index')
-            ->with('imoveis', $imoveis);
+            ->with('imoveis', $imoveis)
+            ->with('cidades', $cidades)
+            ->with('titulo', $titulo)
+            ->with('cidade_id', $cidade_id);
     }
 
     /**

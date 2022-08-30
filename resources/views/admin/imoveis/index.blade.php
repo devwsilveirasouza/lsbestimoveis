@@ -1,6 +1,47 @@
 @extends('admin.layouts.principal')
 
 @section('conteudo-principal')
+    {{-- Filtro de pesquisa --}}
+    <section class="section">
+
+        <form action="{{ route('admin.imoveis.index') }}" method="GET">
+
+            <div class="row valign-wrapper">
+
+                <div class="input-field col s6">
+                    <select name="cidade_id" id="cidade">
+                        <option value="">Selecione uma cidade</option>
+
+                        @foreach ($cidades as $cidade)
+                            <option value="{{ $cidade->id }}" {{$cidade->id == $cidade_id ? 'selected' : ''}}>{{ $cidade->nome }}</option>
+                        @endforeach
+
+                    </select>
+                </div>
+
+                <div class="input-field col s6">
+                    <input type="text" name="titulo" id="titulo" value="{{$titulo}}" />
+                    <label for="titulo">Título</label>
+                </div>
+
+            </div>
+
+            <div class="row right-align">
+                <a href="{{ route('admin.imoveis.index') }}" class="btn-flat waves-effect">
+                    Exibir Todos
+                </a>
+                <button type="submit" class="btn waves-effect waves-light">
+                    Pesquisar
+                </button>
+            </div>
+
+        </form>
+
+    </section>
+
+    <hr />
+
+    {{-- Lista de imóveis --}}
     <section class="section">
 
         <table class="hightlight">
@@ -23,21 +64,21 @@
 
                             {{-- Fotos --}}
                             {{-- Rota aninhada --}}
-                            <a href="{{ route('admin.imoveis.fotos.index', $imovel->id ) }}" title="fotos" >
+                            <a href="{{ route('admin.imoveis.fotos.index', $imovel->id) }}" title="fotos">
                                 <span>
                                     <i class="material-icons green-text text-lighten-1">insert_photo</i>
                                 </span>
                             </a>
 
                             {{-- Ver --}}
-                            <a href="{{ route('admin.imoveis.show', [$imovel->id]) }}" title="ver" >
+                            <a href="{{ route('admin.imoveis.show', [$imovel->id]) }}" title="ver">
                                 <span>
                                     <i class="material-icons indigo-text text-darken-3">remove_red_eye</i>
                                 </span>
                             </a>
 
                             {{-- Editar --}}
-                            <a href="{{ route('admin.imoveis.edit', [$imovel->id]) }}" title="editar" >
+                            <a href="{{ route('admin.imoveis.edit', [$imovel->id]) }}" title="editar">
                                 <span>
                                     <i class="material-icons blue-text text-accent-3">edit</i>
                                 </span>
@@ -45,7 +86,7 @@
 
                             {{-- Excluir --}}
                             <form action="{{ route('admin.imoveis.destroy', [$imovel->id]) }}" method="POST"
-                                style="display: inline;" title="remover" >
+                                style="display: inline;" title="remover">
                                 @csrf
                                 @method('DELETE')
 
