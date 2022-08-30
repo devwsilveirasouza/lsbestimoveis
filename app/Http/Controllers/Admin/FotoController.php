@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Foto;
 use App\Models\Imovel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class FotoController extends Controller
 {
@@ -56,8 +58,19 @@ class FotoController extends Controller
             /** Checar se não houve erro no uplod da imagem */
             if ($request->foto->isValid()) {
 
-                /** Informar onde o arquivo devo ser armazenado e depois onde irá ficar acessível */
-                $fotoURL = $request->foto->store("imoveis/$idImovel", 'public');
+                // /** Informar onde o arquivo devo ser armazenado e depois onde irá ficar acessível */
+                // $fotoURL = $request->foto->store("imoveis/$idImovel", 'public');
+
+                // *** Intervention image - Image resize *** //
+                // Pegando o caminho e o nome do arquivo pra salvar no disco
+                $fotoURL = $request->foto->hashName("imoveis/$idImovel");
+
+                // Redimensionar image
+                $image = Image::make($request->foto)->fit(env('FOTO_LARGURA'), env('FOTO_ALTURA'));
+
+                // Salvar image redimensionada no disco
+                Storage::disk('public')->put($fotoURL, $image->encode());
+                // *** End Intervention image - importar a classe Image e Storage *** //
 
                 /** Armazenando o caminho da foto no DB */
                 $foto = new Foto();
