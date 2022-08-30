@@ -93,8 +93,19 @@ class FotoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $idImovel, $idFoto)
     {
-        //
+        // Buscar as informações
+        $foto = Foto::find($idFoto);
+        // Apaga a imagem no disco /
+        // Através do método Storage vai até a pasta public e deleta o arquivo específico
+        Storage::disk('public')->delete($foto->url);
+        // Apagando o registro no DB
+        $foto->delete();
+
+        $request->session()->flash('sucesso', "Foto excluída com sucesso!");
+
+        return redirect()->route('admin.imoveis.fotos.index', $idImovel);
+
     }
 }

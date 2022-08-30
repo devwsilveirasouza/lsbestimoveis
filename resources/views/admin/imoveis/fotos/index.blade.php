@@ -8,7 +8,25 @@
         <div class="flex-container">
             @forelse ($fotos as $foto)
                 <div class="flex-item">
+
+                    <span class="btn-fechar">
+                        {{-- Excluir --}}
+                        <form action="{{ route('admin.imoveis.fotos.destroy', [$imovel->id, $foto->id]) }}" method="POST"
+                            style="display: inline;" title="remover" >
+                            @csrf
+                            @method('DELETE')
+
+                            <button style="border:0;background:transparent;" type="submit">
+                                <span style="cursor: pointer;">
+                                    <i class="material-icons red-text text-accent-3">delete_forever</i>
+                                </span>
+                            </button>
+
+                        </form>
+                    </span>
+
                     <img src="{{ asset("storage/$foto->url") }}" width="293" height="140" />
+
                 </div>
 
             @empty

@@ -24,7 +24,7 @@ class FotoRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            // Regras de validação
             'foto' => 'bail|required|image|mimes:jpeg,png,jpg|max:4096'
         ];
     }

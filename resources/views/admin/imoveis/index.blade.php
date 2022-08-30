@@ -43,7 +43,7 @@
                                 </span>
                             </a>
 
-                            {{-- Editar --}}
+                            {{-- Excluir --}}
                             <form action="{{ route('admin.imoveis.destroy', [$imovel->id]) }}" method="POST"
                                 style="display: inline;" title="remover" >
                                 @csrf
