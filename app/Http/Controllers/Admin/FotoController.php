@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\FotoRequest;
 use App\Models\Foto;
 use App\Models\Imovel;
 use Illuminate\Http\Request;
@@ -46,7 +47,7 @@ class FotoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $idImovel)
+    public function store(FotoRequest $request, $idImovel)
     {
         /** Maneiras de acessar as informações que estão vindo do form */
         // dd($request->file('foto'));

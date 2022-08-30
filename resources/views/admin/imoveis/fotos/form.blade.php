@@ -1,7 +1,6 @@
 @extends('admin.layouts.principal')
 
 @section('conteudo-principal')
-
     <scetion class="section">
         <form action="{{ route('admin.imoveis.fotos.store', $imovel->id) }}" enctype="multipart/form-data" method="POST">
             @csrf
@@ -14,6 +13,9 @@
                 <div class="file-path-wrapper">
                     <input type="text" class="file-path validade" />
                 </div>
+                @error('foto')
+                    <span class="red-text text-accent-3"><small>{{ $message }}</small></span>
+                @enderror
             </div>
 
             <div class="right-align">
@@ -25,5 +27,4 @@
 
         </form>
     </scetion>
-
 @endsection
