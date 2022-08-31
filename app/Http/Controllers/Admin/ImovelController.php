@@ -66,7 +66,11 @@ class ImovelController extends Controller
         }
 
         // Pegando os dados retornados a partir da execução da query //
-        $imoveis = $imoveis->get();
+        // $imoveis = $imoveis->get();
+
+        // Pegando os dados retornados com paginação //
+        // withQueryString -> faz com que não perca os filtros ao clicar para navegar para outra página
+        $imoveis = $imoveis->paginate(env('PAGINACAO'))->withQueryString();
 
         $cidades = Cidade::orderBy('nome')->get();
 
