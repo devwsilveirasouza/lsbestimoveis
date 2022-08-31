@@ -68,4 +68,8 @@ class Imovel extends Model
      * imovel_id
      * proximidade_id
      */
+    public function fotos()
+    {
+        return $this->hasMany(Foto::class); // Têm muitos.
+    }
 }

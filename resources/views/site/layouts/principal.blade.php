@@ -19,13 +19,16 @@
 <body>
 
     {{-- Menu Topo --}}
-    <nav class="teal blue lighten-1">
+    <nav class="teal darken-2">
         <div class="container">
             <div class="nav-wrapper">
                 <a href="/" class="brand-logo">Best Imóveis</a>
             </div>
         </div>
     </nav>
+
+    {{-- Slider --}}
+    @yield('slider')
 
     {{-- Conteudo Principal --}}
     <div class="container">
@@ -40,6 +43,20 @@
     <!-- Compiled and minified JavaScript -->
     {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script> --}}
     <script src="{{ asset('materialize/js/materialize.min.js') }}"></script>
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var sliders = document.querySelectorAll('.slider');
+            // var instances = M.Slider.init(elems, options);
+
+            M.Slider.init(sliders, {
+                indicators: false,
+                height: 400,
+            })
+        });
+
+    </script>
 
 </body>
 

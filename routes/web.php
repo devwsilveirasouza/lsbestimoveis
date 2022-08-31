@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\CidadeController;
 use App\Http\Controllers\Admin\FotoController;
 use App\Http\Controllers\Admin\ImovelController;
 use App\Http\Controllers\Site\CidadeController as SiteCidadeController;
+use App\Http\Controllers\Site\ImovelController as SiteImovelController;
 use Illuminate\Support\Facades\Route;
 
 // PARTE ADMINISTRATIVA - AGRUPAMENTO DE ROTAS
@@ -15,4 +16,5 @@ Route::prefix('admin')->name('admin.')->group(function () {
 });
 
 // SITE PRINCIPAL
-Route::resource('/', SiteCidadeController::class)->only('index');
+Route::resource('/',                    SiteCidadeController::class)->only('index');
+Route::resource('cidades.imoveis',      SiteImovelController::class)->only(['index', 'show']);
