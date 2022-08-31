@@ -45,8 +45,8 @@
     <script src="{{ asset('materialize/js/materialize.min.js') }}"></script>
 
     <script>
-
         document.addEventListener('DOMContentLoaded', function() {
+            // Slider
             var sliders = document.querySelectorAll('.slider');
             // var instances = M.Slider.init(elems, options);
 
@@ -54,8 +54,11 @@
                 indicators: false,
                 height: 400,
             })
-        });
 
+            // Materialboxed
+            var boxes = document.querySelectorAll('.materialboxed');
+            M.Materialbox.init(boxes);
+        });
     </script>
 
 </body>

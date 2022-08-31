@@ -22,4 +22,13 @@ class ImovelController extends Controller
         ->with('cidade', $cidade)
         ->with('imoveis', $imoveis);
     }
+
+    public function show($idCidade, $idImovel)
+    {
+        $imovel = Imovel::find($idImovel);
+
+        return view('site.cidades.imoveis.show')
+        ->with('imovel', $imovel);
+
+    }
 }

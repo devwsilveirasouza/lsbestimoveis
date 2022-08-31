@@ -22,7 +22,13 @@
                     <p>Preço: <strong>R$ {{$imovel->preco}}</strong></p>
                 </div>
 
+                <div class="card-action center-align">
+                    <a href="{{route('cidades.imoveis.show', [ $cidade->id, $imovel->id ])}}" class="green-text">Ver detalhes</a>
+                </div>
+
+
             </div>
+
 
         @empty
             <p>Não existem imóveis disponíveis nessa cidade no momento!</p>
